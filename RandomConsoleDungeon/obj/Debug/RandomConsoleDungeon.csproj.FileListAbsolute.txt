@@ -1,0 +1,7 @@
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\bin\Debug\RandomConsoleDungeon.exe.config
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\bin\Debug\RandomConsoleDungeon.exe
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\bin\Debug\RandomConsoleDungeon.pdb
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\obj\Debug\RandomConsoleDungeon.csprojAssemblyReference.cache
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\obj\Debug\RandomConsoleDungeon.csproj.CoreCompileInputs.cache
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\obj\Debug\RandomConsoleDungeon.exe
+C:\Users\TJ\source\repos\RandomConsoleDungeon\RandomConsoleDungeon\obj\Debug\RandomConsoleDungeon.pdb
