@@ -46,14 +46,15 @@
     <Compile Include="ConsoleHelpers.cs" />
     <Compile Include="DungeonGenerator.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="MovableObject.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Object\GameObject.cs" />
+    <Compile Include="Object\MovableObject.cs" />
+    <Compile Include="Object\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen.cs" />
-    <Compile Include="Tile.cs" />
-    <Compile Include="Vector2.cs" />
+    <Compile Include="Types\Tile.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Object\Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

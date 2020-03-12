@@ -8,11 +8,12 @@ namespace RandomConsoleDungeon
 {
     class Player : MovableObject
     {
-        public Player(Screen _screen)
+        public Player(Screen _screen, Vector2 startPos = null)
         {
             DisplayChar = '@';
             screen = _screen;
-            Position = new Vector2(0,0);
+            if (startPos == null) Position = Vector2.Zero;
+            Position = startPos;
             DisplayObject();
         }
     }

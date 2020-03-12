@@ -4,11 +4,11 @@ namespace RandomConsoleDungeon
 {
     internal class Tile
     {
-        private Vector2 Position;
+        public Vector2 Position { get; private set; }
         public char DisplayCharacter { get; internal set; }
         public char DefaultCharacter;
+        public GameObject GameObject { get; private set; }
 
-        private GameObject obj;
         public Tile(int x, int y, char defaultCharacter)
         {
             Position = new Vector2(x, y);
@@ -29,9 +29,20 @@ namespace RandomConsoleDungeon
             DisplayCharacter = DefaultCharacter;
         }
 
-        internal void SetWall()
+        internal Tile SetWall(char toSet ='#')
         {
-            DisplayCharacter = DefaultCharacter = '#';
+            DisplayCharacter = DefaultCharacter = toSet;
+            if(GameObject == null) GameObject = new Wall();
+            else
+            {
+
+            }
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return DisplayCharacter.ToString();
         }
     }
 }

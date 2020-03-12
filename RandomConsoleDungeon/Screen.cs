@@ -8,7 +8,7 @@ namespace RandomConsoleDungeon
         public int ScreenHeight { get; private set; }
         public Vector2 FirstRoomPos { get; private set; }
 
-        private Tile[,] tiles;
+        static public Tile[,] tiles;
 
         private DungeonGenerator dg;
         public Screen(Tuple<int, int> ScreenSizeWH)
@@ -29,16 +29,39 @@ namespace RandomConsoleDungeon
                 }
             }
 
-            FirstRoomPos = dg.GenerateRooms(ref tiles);
+            FirstRoomPos = dg.GenerateRooms();
+
+            ////debug testing out to file
+            //string toWrite = "";
+            //for (int x = 0; x < ScreenWidth; x++)
+            //{
+            //    toWrite += x + ": ";
+            //    for (int y = 0; y < ScreenHeight; y++)
+            //    {
+            //        toWrite += tiles[x, y];
+            //    }
+            //    toWrite += "\n";
+            //}
+
+            //using (System.IO.StreamWriter writer = new System.IO.StreamWriter("Dungeon.txt"))
+            //{
+            //    writer.WriteLine(toWrite);
+            //}
+
             DisplayScreen();
+        }
+
+        internal bool CheckWall(Vector2 expectedPos)
+        {
+            return tiles[expectedPos.x, expectedPos.y].GameObject is Wall;
         }
 
         public void DisplayScreen()
         {
             string display = "";
-            for (int x = 0; x < ScreenWidth; x++)
+            for (int y = 0; y < ScreenHeight; y++)
             {
-                for (int y = 0; y < ScreenHeight; y++)
+                for (int x = 0; x < ScreenWidth; x++)
                 {
                     display += (tiles[x, y].DisplayCharacter);
                 }

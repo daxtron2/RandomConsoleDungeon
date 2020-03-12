@@ -20,8 +20,7 @@ namespace RandomConsoleDungeon
             Console.CursorVisible = false;
             ConsoleHelpers.SetConsoleSize();
             Screen = new Screen(ConsoleHelpers.GetSize());
-            player = new Player(Screen);
-            //player.Position = Screen.FirstRoomPos;
+            player = new Player(Screen, Screen.FirstRoomPos);
 
         }
 
