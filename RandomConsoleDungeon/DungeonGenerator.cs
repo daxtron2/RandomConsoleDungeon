@@ -28,7 +28,7 @@ namespace RandomConsoleDungeon
         /// </summary>
         /// <param name="Screen.tiles">tile array</param>
         /// <returns>The first room's center for player spawning</returns>
-        public Vector2 GenerateRooms()
+        public List<Room> GenerateRooms()
         {
             //clear out old rooms
             rooms.Clear();
@@ -84,7 +84,6 @@ namespace RandomConsoleDungeon
                 }
                 ConnectAllRooms(rooms);
                 
-                return rooms[0].Position;
             }
             else
             {
@@ -95,8 +94,8 @@ namespace RandomConsoleDungeon
                 rooms[0].roomSize = 2;
 
                 PlaceRoom(rooms[0]);
-                return roomPos;
             }
+            return rooms;
         }
 
         private void ConnectAllRooms(List<Room> rooms)

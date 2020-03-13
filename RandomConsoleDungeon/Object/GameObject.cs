@@ -8,7 +8,7 @@
 
         public GameObject() : base()
         {
-        }        
+        }
 
         protected virtual void DisplayObject()
         {

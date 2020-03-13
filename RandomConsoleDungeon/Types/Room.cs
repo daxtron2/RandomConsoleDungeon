@@ -11,7 +11,11 @@ namespace RandomConsoleDungeon
         public int roomSize;
 
         private Tile LDoor, RDoor, TDoor, BDoor;
-        private Tile TL, TR, BL, BR;
+        public Tile TL { get; private set; }
+        public Tile TR { get; private set; }
+        public Tile BL { get; private set; }
+        public Tile BR { get; private set; }
+
         private List<int> xValues, yValues;
         static private Screen Screen;
 

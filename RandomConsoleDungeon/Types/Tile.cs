@@ -15,7 +15,8 @@ namespace RandomConsoleDungeon
             Position = new Vector2(x, y);
 
             //Testing
-            DefaultCharacter = DisplayCharacter = defaultCharacter;
+            DefaultCharacter = defaultCharacter;
+            DisplayCharacter = '\0';
 
         }
 
@@ -30,15 +31,22 @@ namespace RandomConsoleDungeon
             DisplayCharacter = DefaultCharacter;
         }
 
+        private void SetCharacter(char toSet)
+        {
+            DefaultCharacter = toSet;
+            DisplayCharacter = '\0';
+        }
         internal Tile SetWall(char toSet ='#')
         {
-            DisplayCharacter = DefaultCharacter = toSet;
+            SetCharacter(toSet);
             GameObject = new Wall();
             return this;
         }
+
+
         internal Tile SetPath(char toSet = '-')
         {
-            DisplayCharacter = DefaultCharacter = toSet;
+            SetCharacter(toSet);
             if(!(GameObject is Wall))            
             {
                 GameObject = new Path();
@@ -47,16 +55,22 @@ namespace RandomConsoleDungeon
             return this;
         }
 
+        internal Tile SetDoor(char toSet = '+')
+        {
+            SetCharacter(toSet);
+            GameObject = new Door(Position);
+            return this;
+        }
+
         public override string ToString()
         {
             return DisplayCharacter.ToString();
         }
 
-        internal Tile SetDoor(char toSet = '+')
+        internal void Reveal()
         {
-            DisplayCharacter = DefaultCharacter = toSet;
-            GameObject = new Door(Position);
-            return this;
+            DisplayCharacter = DefaultCharacter;
+            Display();
         }
     }
 }

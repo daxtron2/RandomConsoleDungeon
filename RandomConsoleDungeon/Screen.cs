@@ -25,6 +25,8 @@ namespace RandomConsoleDungeon
         public Tile[,] tiles;
 
         private DungeonGenerator dg;
+        private List<Room> rooms;
+
         private Screen()
         {
 
@@ -46,7 +48,9 @@ namespace RandomConsoleDungeon
                 }
             }
 
-            FirstRoomPos = dg.GenerateRooms();
+
+            rooms = dg.GenerateRooms();
+            FirstRoomPos = rooms[0].Position;
 
             DisplayScreen();
         }
@@ -104,6 +108,17 @@ namespace RandomConsoleDungeon
         {
             tiles[x, y].DisplayCharacter = character;
             tiles[x, y].Display();
+        }
+
+        internal void RevealTiles(Vector2 position, int halfDist)
+        {
+            for (int x = position.x - halfDist; x < position.x + halfDist; x++)
+            {
+                for (int y = position.y - halfDist; y < position.y + halfDist; y++)
+                {
+                    tiles[x, y].Reveal();
+                }
+            }
         }
 
         private void ClearScreen()
