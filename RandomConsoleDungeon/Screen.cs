@@ -25,7 +25,7 @@ namespace RandomConsoleDungeon
                 for (int y = 0; y < ScreenHeight; y++)
                 {
                     //string def = (y).ToString();
-                    tiles[x, y] = new Tile(x, y, ' ');
+                    tiles[x, y] = new Tile(x, y, '\0');
                 }
             }
 
@@ -53,7 +53,10 @@ namespace RandomConsoleDungeon
 
         internal bool CheckWall(Vector2 expectedPos)
         {
-            return tiles[expectedPos.x, expectedPos.y].GameObject is Wall;
+            bool isBlocked = false;
+            if (tiles[expectedPos.x, expectedPos.y].GameObject is Wall) isBlocked = true;
+            if (tiles[expectedPos.x, expectedPos.y].GameObject is null) isBlocked = true;
+            return isBlocked;
         }
 
         public void DisplayScreen()

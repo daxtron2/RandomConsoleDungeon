@@ -32,11 +32,18 @@ namespace RandomConsoleDungeon
         internal Tile SetWall(char toSet ='#')
         {
             DisplayCharacter = DefaultCharacter = toSet;
-            if(GameObject == null) GameObject = new Wall();
-            else
+            GameObject = new Wall();
+            return this;
+        }
+        internal Tile SetPath(char toSet = '-')
+        {
+            DisplayCharacter = DefaultCharacter = toSet;
+            if(GameObject is Wall)
             {
-
+                DisplayCharacter = DefaultCharacter = '+';
             }
+            GameObject = new Path();
+            
             return this;
         }
 
@@ -44,5 +51,6 @@ namespace RandomConsoleDungeon
         {
             return DisplayCharacter.ToString();
         }
+
     }
 }

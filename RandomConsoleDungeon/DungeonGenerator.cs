@@ -83,39 +83,58 @@ namespace RandomConsoleDungeon
 
         private void ConnectAllRooms(List<Room> rooms)
         {            
-            foreach(Room rm in rooms)
-            {                
-                var closestUnconnected = GetClosestRoom(rooms, rm, false);
-                if(closestUnconnected != null)
+            foreach(Room rm1 in rooms)
+            {         
+                foreach(Room rm2 in rooms)
                 {
-                    ConnectRooms(rm, closestUnconnected);
-                    rooms[rooms.IndexOf(closestUnconnected)].Connected = true;
-                    rm.Connected = true;
-                }
-
-                var closestConnected = GetClosestRoom(rooms, rm, true);
-                if(closestConnected != null)
-                {
-                    ConnectRooms(rm, closestConnected);
-                    rm.Connected = true;
-                }
-
-                if(closestConnected == null && closestUnconnected == null)
-                {
-                    //Just one room i think?
-                    //put stuff necessary in this room i guess idfk
-                }
+                    if (rm1 == rm2) continue;
+                    ConnectRooms(rm1, rm2);
+                }               
             }
         }
 
         private void ConnectRooms(Room a, Room b)
         {
-            ConnectWalls(Screen.tiles[a.Position.x, a.Position.y], Screen.tiles[b.Position.x, b.Position.y]);
+            CreatePath(Screen.tiles[a.Position.x, a.Position.y], Screen.tiles[b.Position.x, b.Position.y]);
+        }
+
+        private void CreatePath(Tile start, Tile end)
+        {
+            Vector2 currPos = new Vector2(start.Position.x, start.Position.y);
+            Vector2 overDir = end.Position - start.Position;
+            while(currPos.x != end.Position.x)
+            {
+                if (CheckInRoom(currPos))
+                {
+
+                }
+                else
+                {
+                    Screen.tiles[currPos.x, currPos.y].SetPath();
+                }
+                currPos.x += Math.Sign(overDir.x);
+            }
+            while (currPos.y != end.Position.y)
+            {
+                if (CheckInRoom(currPos))
+                {
+
+                }
+                else
+                {
+                    Screen.tiles[currPos.x, currPos.y].SetPath();
+                }
+                currPos.y += Math.Sign(overDir.y);
+            }
+        }
+
+        private bool CheckInRoom(Vector2 position)
+        {
+
         }
 
         private Room GetClosestRoom(List<Room> rms, Room thisRm, bool? connected)
-        {
-            
+        {            
             Room rMin = null;
             int minDist = int.MaxValue;
             Vector2 currentPos = thisRm.Position;
