@@ -1,16 +1,18 @@
 ﻿namespace RandomConsoleDungeon
 {
-    internal class GameObject
+    internal class GameObject : Updatable
     {
         internal Vector2 Position;
 
         protected char DisplayChar;
 
-        protected Screen screen;
+        public GameObject() : base()
+        {
+        }        
 
         protected virtual void DisplayObject()
         {
-            screen.SetCharacter(Position.x, Position.y, DisplayChar);
+            Screen.SetCharacter(Position.x, Position.y, DisplayChar);
         }
     }
 }

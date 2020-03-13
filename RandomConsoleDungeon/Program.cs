@@ -10,7 +10,7 @@ namespace RandomConsoleDungeon
     {
         static void Main(string[] args)
         {
-            using(Game game = new Game())
+            using(Game game = Game.Instance)
             {
                 game.Init();
                 while (game.Running)

@@ -2,11 +2,16 @@
 {
     internal class MovableObject : GameObject
     {
-        internal void MoveObject(Vector2 dir)
+        public MovableObject() : base()
+        {
+
+        }
+
+        internal virtual void MoveObject(Vector2 dir)
         {
             if (CheckMove(dir))
             {
-                screen.MoveCharacter(Position.x, Position.y, dir);
+                Screen.MoveCharacter(Position.x, Position.y, dir);
                 Position += dir;
             }
         }
@@ -15,13 +20,9 @@
         {
             var expectedPos = Position + dir;
 
-            if (expectedPos.x < 0 || expectedPos.x >= screen.ScreenWidth) return false;
-            if (expectedPos.y < 0 || expectedPos.y >= screen.ScreenHeight) return false;
-            if (screen.CheckWall(expectedPos))
-            {
-                return false;
-            }
-            
+            if (expectedPos.x < 0 || expectedPos.x >= Screen.ScreenWidth) return false;
+            if (expectedPos.y < 0 || expectedPos.y >= Screen.ScreenHeight) return false;
+            if (!Screen.CheckWalkable(expectedPos)) return false;            
 
             return true;
         }

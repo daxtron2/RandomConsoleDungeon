@@ -11,6 +11,7 @@ namespace RandomConsoleDungeon
 
         public Tile(int x, int y, char defaultCharacter)
         {
+
             Position = new Vector2(x, y);
 
             //Testing
@@ -38,11 +39,10 @@ namespace RandomConsoleDungeon
         internal Tile SetPath(char toSet = '-')
         {
             DisplayCharacter = DefaultCharacter = toSet;
-            if(GameObject is Wall)
+            if(!(GameObject is Wall))            
             {
-                DisplayCharacter = DefaultCharacter = '+';
+                GameObject = new Path();
             }
-            GameObject = new Path();
             
             return this;
         }
@@ -52,5 +52,11 @@ namespace RandomConsoleDungeon
             return DisplayCharacter.ToString();
         }
 
+        internal Tile SetDoor(char toSet = '+')
+        {
+            DisplayCharacter = DefaultCharacter = toSet;
+            GameObject = new Door(Position);
+            return this;
+        }
     }
 }

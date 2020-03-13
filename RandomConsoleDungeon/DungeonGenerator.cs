@@ -11,11 +11,16 @@ namespace RandomConsoleDungeon
         private const int minRooms = 10, maxRooms = 25;
         private const int minSize = 3, maxSize = 5;
         private Random rng;
-        
+        private List<Room> rooms;
+        private List<Tile> pathTiles;
+        private Screen Screen;
 
         public DungeonGenerator()
         {
             rng = new Random();
+            rooms = new List<Room>();
+            pathTiles = new List<Tile>();
+            Screen = Screen.Instance;
         }
 
         /// <summary>
@@ -25,22 +30,29 @@ namespace RandomConsoleDungeon
         /// <returns>The first room's center for player spawning</returns>
         public Vector2 GenerateRooms()
         {
+            //clear out old rooms
+            rooms.Clear();
+            pathTiles.Clear();
+            
+            //get our screen size
             int width = ConsoleHelpers.Width;
             int height = ConsoleHelpers.Height;
 
-            List<Room> rooms = new List<Room>();
+            //how many rooms do we want
             int numRooms = rng.Next(minRooms, maxRooms + 1);
             for(int i = 0; i < numRooms; i++)
             {
+                //generate a room at a random position
                 Room room = new Room();
                 room.roomSize = rng.Next(minSize, maxSize + 1);
 
                 room.Position = GetRandomPosition(width, height);
 
+                //check if too close to other rooms
                 bool addRoomToList = true;
                 foreach(Room rm in rooms)
                 {
-                    if(Vector2.Distance(room.Position, rm.Position) < rm.roomSize + room.roomSize)
+                    if(Vector2.Distance(room.Position, rm.Position) < rm.roomSize + room.roomSize + 1)
                     {
                         addRoomToList = false;
                         break;
@@ -68,15 +80,21 @@ namespace RandomConsoleDungeon
             {
                 foreach(Room rm in rooms)
                 {
-                    PlaceRoom(rm.Position, rm.roomSize);
+                    PlaceRoom(rm);
                 }
                 ConnectAllRooms(rooms);
+                
                 return rooms[0].Position;
             }
             else
             {
                 var roomPos = new Vector2(width / 2, height / 2);
-                PlaceRoom(roomPos, 2);
+                rooms.Add(new Room());
+
+                rooms[0].Position = roomPos;
+                rooms[0].roomSize = 2;
+
+                PlaceRoom(rooms[0]);
                 return roomPos;
             }
         }
@@ -102,35 +120,43 @@ namespace RandomConsoleDungeon
         {
             Vector2 currPos = new Vector2(start.Position.x, start.Position.y);
             Vector2 overDir = end.Position - start.Position;
+            Room outedRoom;
+            Tile createdTile = null;
             while(currPos.x != end.Position.x)
             {
-                if (CheckInRoom(currPos))
-                {
-
-                }
-                else
-                {
-                    Screen.tiles[currPos.x, currPos.y].SetPath();
+                if (!CheckInRoom(currPos, out outedRoom))
+                {                                        
+                    createdTile = Screen.tiles[currPos.x, currPos.y].SetPath();
                 }
                 currPos.x += Math.Sign(overDir.x);
             }
             while (currPos.y != end.Position.y)
             {
-                if (CheckInRoom(currPos))
+                if (!CheckInRoom(currPos, out outedRoom))
                 {
-
-                }
-                else
-                {
-                    Screen.tiles[currPos.x, currPos.y].SetPath();
+                    createdTile = Screen.tiles[currPos.x, currPos.y].SetPath();
                 }
                 currPos.y += Math.Sign(overDir.y);
             }
+            if(createdTile != null)
+            {
+                pathTiles.Add(createdTile);
+            }
         }
 
-        private bool CheckInRoom(Vector2 position)
+        private bool CheckInRoom(Vector2 position, out Room roomOut)
         {
+            foreach(Room rm in rooms)
+            {
+                if(rm.IsInRoom(position))
+                {
+                    roomOut = rm;
+                    return true;
+                }
+            }
 
+            roomOut = null;
+            return false;
         }
 
         private Room GetClosestRoom(List<Room> rms, Room thisRm, bool? connected)
@@ -156,21 +182,28 @@ namespace RandomConsoleDungeon
             return rMin;
         }
 
-        private void PlaceRoom(Vector2 pos, int size)
+        private void PlaceRoom(Room rm)
         {
+            Vector2 pos = rm.Position;
+            int size = rm.roomSize;
+
             int w = ConsoleHelpers.Width;
             int h = ConsoleHelpers.Height;
 
-            var tl = Screen.tiles[pos.x - size, pos.y - size].SetWall('1');
-            var tr = Screen.tiles[pos.x + size, pos.y - size].SetWall('3');
-            ConnectWalls(tl, tr);
+            var tl = Screen.tiles[pos.x - size, pos.y - size].SetWall();
+            var tr = Screen.tiles[pos.x + size, pos.y - size].SetWall();
 
-            var bl = Screen.tiles[pos.x - size, pos.y + size].SetWall('2');
-            var br = Screen.tiles[pos.x + size, pos.y + size].SetWall('4');
+            var bl = Screen.tiles[pos.x - size, pos.y + size].SetWall();
+            var br = Screen.tiles[pos.x + size, pos.y + size].SetWall();
+
+
+            ConnectWalls(tl, tr);
             ConnectWalls(bl, br);
 
             ConnectWalls(tl, bl);
-            ConnectWalls(tr, br);
+            ConnectWalls(tr, br);            
+
+            rm.SetCorners(tl, tr, bl, br);
         }
 
         private void ConnectWalls(Tile start, Tile end)
@@ -181,7 +214,6 @@ namespace RandomConsoleDungeon
             {
                 Screen.tiles[start.Position.x + (dir.x * i), start.Position.y + (dir.y * i)].SetWall();
             }
-
         }
 
         private Vector2 GetRandomPosition(int width, int height)
@@ -190,13 +222,5 @@ namespace RandomConsoleDungeon
             int randY = rng.Next(0, height);
             return new Vector2(randX, randY);
         }
-    }
-
-    class Room
-    {
-        public Vector2 Position;
-        public int roomSize;
-
-        public bool Connected { get; internal set; } = false;
     }
 }
