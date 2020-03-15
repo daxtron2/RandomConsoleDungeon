@@ -78,6 +78,8 @@ namespace RandomConsoleDungeon
             LDoor = GetMidpoint(TL, BL);
             RDoor = GetMidpoint(TR, BR);
 
+            if (TDoor is null || BDoor is null || LDoor is null || RDoor is null) return;
+
             TDoor.SetDoor();
             BDoor.SetDoor();
             LDoor.SetDoor();
@@ -92,7 +94,7 @@ namespace RandomConsoleDungeon
             {
                 for(int y = TL.Position.y+1; y < BL.Position.y; y++)
                 {
-                    Screen.tiles[x, y].SetPath('\0');
+                    Screen.AccessTile(x, y)?.SetPath('\0');
                 }
             }
         }
@@ -102,7 +104,7 @@ namespace RandomConsoleDungeon
             int xMidpoint = (pt1.Position.x + pt2.Position.x) / 2;
             int yMidpoint = (pt1.Position.y + pt2.Position.y) / 2;
 
-            return Screen.tiles[xMidpoint, yMidpoint];
+            return Screen.AccessTile(xMidpoint, yMidpoint);
         }
     }
 }

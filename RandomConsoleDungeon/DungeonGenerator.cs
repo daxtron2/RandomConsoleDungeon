@@ -112,7 +112,10 @@ namespace RandomConsoleDungeon
 
         private void ConnectRooms(Room a, Room b)
         {
-            CreatePath(Screen.tiles[a.Position.x, a.Position.y], Screen.tiles[b.Position.x, b.Position.y]);
+            Tile ta = Screen.AccessTile(a.Position.x, a.Position.y);
+            Tile tb = Screen.AccessTile(b.Position.x, b.Position.y);
+            if (ta is null || tb is null) return;
+            CreatePath(ta, tb);
         }
 
         private void CreatePath(Tile start, Tile end)
@@ -125,7 +128,7 @@ namespace RandomConsoleDungeon
             {
                 if (!CheckInRoom(currPos, out outedRoom))
                 {                                        
-                    createdTile = Screen.tiles[currPos.x, currPos.y].SetPath();
+                    createdTile = Screen.AccessTile(currPos.x, currPos.y)?.SetPath();
                 }
                 currPos.x += Math.Sign(overDir.x);
             }
@@ -133,7 +136,7 @@ namespace RandomConsoleDungeon
             {
                 if (!CheckInRoom(currPos, out outedRoom))
                 {
-                    createdTile = Screen.tiles[currPos.x, currPos.y].SetPath();
+                    createdTile = Screen.AccessTile(currPos.x, currPos.y)?.SetPath();
                 }
                 currPos.y += Math.Sign(overDir.y);
             }
@@ -189,11 +192,11 @@ namespace RandomConsoleDungeon
             int w = ConsoleHelpers.Width;
             int h = ConsoleHelpers.Height;
 
-            var tl = Screen.tiles[pos.x - size, pos.y - size].SetWall();
-            var tr = Screen.tiles[pos.x + size, pos.y - size].SetWall();
+            var tl = Screen.AccessTile(pos.x - size, pos.y - size)?.SetWall();
+            var tr = Screen.AccessTile(pos.x + size, pos.y - size)?.SetWall();
 
-            var bl = Screen.tiles[pos.x - size, pos.y + size].SetWall();
-            var br = Screen.tiles[pos.x + size, pos.y + size].SetWall();
+            var bl = Screen.AccessTile(pos.x - size, pos.y + size)?.SetWall();
+            var br = Screen.AccessTile(pos.x + size, pos.y + size)?.SetWall();
 
 
             ConnectWalls(tl, tr);
@@ -211,7 +214,7 @@ namespace RandomConsoleDungeon
             int dist = Vector2.Distance(start.Position, end.Position);
             for(int i = 1; i < dist; i++)
             {
-                Screen.tiles[start.Position.x + (dir.x * i), start.Position.y + (dir.y * i)].SetWall();
+                Screen.AccessTile(start.Position.x + (dir.x * i), start.Position.y + (dir.y * i))?.SetWall();
             }
         }
 

@@ -44,7 +44,7 @@ namespace RandomConsoleDungeon
             {
                 for (int y = 0; y < ScreenHeight; y++)
                 {
-                    tiles[x, y] = new Tile(x, y, '\0');
+                    SetTile(x, y, new Tile(x, y, '\0'));
                 }
             }
 
@@ -53,6 +53,12 @@ namespace RandomConsoleDungeon
             FirstRoomPos = rooms[0].Position;
 
             DisplayScreen();
+        }
+
+        private void SetTile(int x, int y, Tile tile)
+        {
+            if (!IsValidPosition(new Vector2(x, y))) return;
+            tiles[x, y] = tile;
         }
 
         internal bool IsValidPosition(Vector2 pos)
@@ -65,7 +71,7 @@ namespace RandomConsoleDungeon
 
         internal bool CheckWalkable(Vector2 expectedPos)
         {
-            var goToTest = tiles[expectedPos.x, expectedPos.y].GameObject;
+            var goToTest = AccessTile(expectedPos.x, expectedPos.y)?.GameObject;
             if (goToTest is Wall) return false;
             if (goToTest is null) return false;
             if (goToTest is Door)
@@ -83,7 +89,7 @@ namespace RandomConsoleDungeon
             {
                 for (int x = 0; x < ScreenWidth; x++)
                 {
-                    display += (tiles[x, y].DisplayCharacter);
+                    display += (AccessTile(x, y)?.DisplayCharacter);
                 }
             }
 
@@ -93,8 +99,9 @@ namespace RandomConsoleDungeon
 
         internal void MoveCharacter(int x, int y, Vector2 dir)
         {
-            var original = tiles[x, y];
-            var next = tiles[x + dir.x, y + dir.y];
+            var original = AccessTile(x, y);
+            var next = AccessTile(x + dir.x, y + dir.y);
+            if (original is null || next is null) return;
 
             next.DisplayCharacter = original.DisplayCharacter;
             original.ResetCharacter();
@@ -106,8 +113,10 @@ namespace RandomConsoleDungeon
 
         internal void SetCharacter(int x, int y, char character)
         {
-            tiles[x, y].DisplayCharacter = character;
-            tiles[x, y].Display();
+            Tile t = AccessTile(x, y);
+            if (t is null) return;
+            t.DisplayCharacter = character;
+            t.Display();
         }
 
         internal void RevealTiles(Vector2 position, int halfDist)
@@ -116,9 +125,15 @@ namespace RandomConsoleDungeon
             {
                 for (int y = position.y - halfDist; y < position.y + halfDist; y++)
                 {
-                    tiles[x, y].Reveal();
+                    AccessTile(x, y)?.Reveal();
                 }
             }
+        }
+
+        internal Tile AccessTile(int x, int y)
+        {
+            if(!IsValidPosition(new Vector2(x,y))) return null;
+            return tiles[x, y];
         }
 
         private void ClearScreen()

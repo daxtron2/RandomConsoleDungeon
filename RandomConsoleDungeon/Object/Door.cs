@@ -28,19 +28,19 @@ namespace RandomConsoleDungeon
             Vector2 left  = Position + Vector2.Left;
             Vector2 right = Position + Vector2.Right;
 
-            if (Screen.IsValidPosition(above) && Screen.tiles[above.x, above.y].GameObject is Path)
+            if (Screen.IsValidPosition(above) && Screen.AccessTile(above.x, above.y)?.GameObject is Path)
             {
                 numOfPaths++;
             }
-            if (Screen.IsValidPosition(below) && Screen.tiles[below.x, below.y].GameObject is Path)
+            if (Screen.IsValidPosition(below) && Screen.AccessTile(below.x, below.y)?.GameObject is Path)
             {
                 numOfPaths++;
             }
-            if (Screen.IsValidPosition(left) && Screen.tiles[left.x, left.y].GameObject is Path)
+            if (Screen.IsValidPosition(left) && Screen.AccessTile(left.x, left.y)?.GameObject is Path)
             {
                 numOfPaths++;
             }
-            if (Screen.IsValidPosition(right) && Screen.tiles[right.x, right.y].GameObject is Path)
+            if (Screen.IsValidPosition(right) && Screen.AccessTile(right.x, right.y)?.GameObject is Path)
             {
                 numOfPaths++;
             }
