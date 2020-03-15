@@ -61,10 +61,10 @@ namespace RandomConsoleDungeon
             return this;
         }
 
-        internal Tile SetDoor(char toSet = '+')
+        internal Tile SetDoor(Room rm, char toSet = '+')
         {
             SetCharacter(toSet);
-            GameObject = new Door(Position);
+            GameObject = new Door(Position, rm);
             return this;
         }
 

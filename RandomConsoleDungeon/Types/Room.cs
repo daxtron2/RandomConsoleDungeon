@@ -10,6 +10,7 @@ namespace RandomConsoleDungeon
         public Vector2 Position;
         public int roomSize;
 
+        public List<Tile> doors;
         private Tile LDoor, RDoor, TDoor, BDoor;
         public Tile TL { get; private set; }
         public Tile TR { get; private set; }
@@ -22,12 +23,13 @@ namespace RandomConsoleDungeon
         public Room()
         {
             if (Screen == null) Screen = Screen.Instance;
+            doors = new List<Tile>();
         }
 
         public bool Connected { get; internal set; } = false;
         private void InitLists()
         {
-
+            
             if (xValues == null || xValues.Count != 4)
             {
                 xValues = new List<int>();
@@ -80,10 +82,10 @@ namespace RandomConsoleDungeon
 
             if (TDoor is null || BDoor is null || LDoor is null || RDoor is null) return;
 
-            TDoor.SetDoor();
-            BDoor.SetDoor();
-            LDoor.SetDoor();
-            RDoor.SetDoor();
+            TDoor.SetDoor(this);
+            BDoor.SetDoor(this);
+            LDoor.SetDoor(this);
+            RDoor.SetDoor(this);
 
             SetFloor();
         }

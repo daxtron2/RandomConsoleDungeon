@@ -112,10 +112,27 @@ namespace RandomConsoleDungeon
 
         private void ConnectRooms(Room a, Room b)
         {
-            Tile ta = Screen.AccessTile(a.Position.x, a.Position.y);
-            Tile tb = Screen.AccessTile(b.Position.x, b.Position.y);
-            if (ta is null || tb is null) return;
-            CreatePath(ta, tb);
+            //Tile ta = Screen.AccessTile(a.Position.x, a.Position.y);
+            //Tile tb = Screen.AccessTile(b.Position.x, b.Position.y);
+            //if (ta is null || tb is null) return;
+            
+            //CreatePath(ta, tb);
+
+            foreach(Tile doorA in a.doors)
+            {
+                foreach(Tile doorB in b.doors)
+                {
+                    if (doorA == doorB) continue;
+
+                    var doorObj = doorB.GameObject as Door;
+                    if (doorObj is null) continue;
+                    if (doorObj.IsConnectedToRoom(a)) continue;
+
+                    CreatePath(doorA, doorB);
+
+                    doorObj.ConnectToRoom(a);
+                }
+            }
         }
 
         private void CreatePath(Tile start, Tile end)

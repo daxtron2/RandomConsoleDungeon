@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RandomConsoleDungeon
 {
     internal class Door : Path
     {
+        private List<Room> ConnectedRooms;
         private bool NeedsToCheckPaths = true;
-        public Door(Vector2 pos) : base()
+        private Room Room;
+        public Door(Vector2 pos, Room rm) : base()
         {
+            ConnectedRooms = new List<Room>();
             Position = pos;
+            Room = rm;
+            rm.doors.Add(Screen.AccessTile(Position.x, Position.y));
         }
 
         public override void Update(float deltaTime)
@@ -47,6 +53,16 @@ namespace RandomConsoleDungeon
 
             if (numOfPaths >= 2) IsWalkable = true;
             else IsWalkable = false;
+        }
+
+        internal bool IsConnectedToRoom(Room a)
+        {
+            return ConnectedRooms.Contains(a);
+        }
+
+        internal void ConnectToRoom(Room a)
+        {
+            ConnectedRooms.Add(a);
         }
     }
 }
