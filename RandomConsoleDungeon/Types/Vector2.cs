@@ -33,6 +33,20 @@ namespace RandomConsoleDungeon
             return (int)Math.Round(Math.Sqrt(Math.Pow(b.x - a.x, 2) + Math.Pow(b.y - a.y, 2)));
         }
         public static Vector2 Zero { get { return new Vector2(0, 0); } }
+
+        internal static Vector2 GetRandomDirection()
+        {
+            int id = Game.RandomInstance.Next(0, 4);
+            switch (id)
+            {
+                case 0: return Vector2.Up; 
+                case 1: return Vector2.Down;
+                case 2: return Vector2.Left;
+                case 3: return Vector2.Right;
+                default:return Vector2.Zero;
+            }
+        }
+
         public static Vector2 Up { get { return new Vector2(0, -1); } }
         public static Vector2 Down { get { return new Vector2(0, 1); } }
         public static Vector2 Left { get { return new Vector2(-1, 0); } }

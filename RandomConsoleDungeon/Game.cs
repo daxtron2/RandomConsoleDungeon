@@ -20,11 +20,21 @@ namespace RandomConsoleDungeon
                 return instance;
             }
         }
-
+        private static Random rng;
+        public static Random RandomInstance
+        {
+            get
+            {
+                if (rng == null)
+                {
+                    rng = new Random();
+                }
+                return rng;
+            }
+        }
 
         private Game() { }
         public bool Running { get; internal set; }
-
 
         private Screen Screen;
         private Player player;
@@ -42,7 +52,7 @@ namespace RandomConsoleDungeon
             Screen = Screen.Instance;
             Screen.Init();
             player = new Player(Screen.FirstRoomPos);
-            enemies.Add(new Enemy(3, Screen.FirstRoomPos + Vector2.Up));
+            enemies.Add(new RandomWalker(3, Screen.FirstRoomPos + Vector2.Up));
         }
 
 
@@ -50,7 +60,10 @@ namespace RandomConsoleDungeon
         {
             //Console.WriteLine("Dispose anything necessary");
             Updatables.Clear();
+            enemies.Clear();
             Updatables = null;
+            enemies = null;
+
             Screen = null;
             player = null;
 
@@ -108,6 +121,9 @@ namespace RandomConsoleDungeon
                         break;
                     case 'd':
                         player.MoveObject(Vector2.Right);
+                        break;
+                    case '\\':
+                        Screen.RevealTiles(Vector2.Zero, 100);
                         break;
                 }
             }

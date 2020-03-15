@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace RandomConsoleDungeon
 {
-    class Enemy : AttackableObject
+    abstract class Enemy : AttackableObject
     {
+        protected int detectionDistance = 1;
         public Enemy(int hp, Vector2 startPos = null) : base()
         {
             if (startPos == null) Position = Vector2.Zero;
@@ -30,8 +31,11 @@ namespace RandomConsoleDungeon
             if(movementTimer >= 1f)
             {
                 movementTimerInc++;
-                ConsoleHelpers.WriteString($"MVMT: {movementTimerInc}");
+                //ConsoleHelpers.WriteString($"MVMT: {movementTimerInc}");
                 movementTimer = 0f;
+
+                //if(Vector2.Distance(Position, ))
+                DoMovementType();
             }
         }
 
@@ -50,5 +54,7 @@ namespace RandomConsoleDungeon
             base.TakeDamage(dmg);
             ConsoleHelpers.WriteString($"Enemy Took {dmg} damage");
         }
+
+        protected abstract void DoMovementType();
     }
 }

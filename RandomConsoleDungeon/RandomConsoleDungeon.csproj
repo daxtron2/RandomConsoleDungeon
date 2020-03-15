@@ -51,6 +51,7 @@
     <Compile Include="Object\GameObject.cs" />
     <Compile Include="Object\MovableObject.cs" />
     <Compile Include="Object\Player.cs" />
+    <Compile Include="Object\RandomWalker.cs" />
     <Compile Include="Types\Updatable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

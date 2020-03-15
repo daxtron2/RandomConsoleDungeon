@@ -17,7 +17,7 @@ namespace RandomConsoleDungeon
 
         public DungeonGenerator()
         {
-            rng = new Random();
+            rng = Game.RandomInstance;
             rooms = new List<Room>();
             pathTiles = new List<Tile>();
             Screen = Screen.Instance;

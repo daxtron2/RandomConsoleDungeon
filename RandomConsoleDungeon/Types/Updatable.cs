@@ -2,8 +2,8 @@
 {
     internal class Updatable
     {
-        protected static Screen Screen;
-        protected static Game game;
+        protected Screen Screen;
+        protected Game game;
 
         public Updatable()
         {
