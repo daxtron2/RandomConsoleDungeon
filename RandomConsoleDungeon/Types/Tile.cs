@@ -26,6 +26,12 @@ namespace RandomConsoleDungeon
             Console.Write(DisplayCharacter);
         }
 
+        internal void ObjectDied()
+        {
+            if (GameObject is AttackableObject)
+                SetPath(DefaultCharacter);
+        }
+
         internal void ResetCharacter()
         {
             DisplayCharacter = DefaultCharacter;
@@ -71,6 +77,17 @@ namespace RandomConsoleDungeon
         {
             DisplayCharacter = DefaultCharacter;
             Display();
+        }
+
+        internal void SwapObject(ref Tile other)
+        {
+            var thisOrigObj = GameObject;
+            GameObject = other.GameObject;
+            other.GameObject = thisOrigObj;
+        }
+        internal void SetGameObject(GameObject gameObject)
+        {
+            GameObject = gameObject;
         }
     }
 }

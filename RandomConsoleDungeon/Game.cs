@@ -29,18 +29,20 @@ namespace RandomConsoleDungeon
         private Screen Screen;
         private Player player;
 
-        List<Updatable> Updatables;
+        private List<Updatable> Updatables;
+        private List<Enemy> enemies;
 
         internal void Init()
         {
             Updatables = new List<Updatable>();
+            enemies = new List<Enemy>();
             Running = true;
             Console.CursorVisible = false;
             ConsoleHelpers.SetConsoleSize();
             Screen = Screen.Instance;
             Screen.Init();
             player = new Player(Screen.FirstRoomPos);
-
+            enemies.Add(new Enemy(3, Screen.FirstRoomPos + Vector2.Up));
         }
 
 
@@ -64,14 +66,18 @@ namespace RandomConsoleDungeon
                 up.PreUpdate();
             }
         }
+
+        private DateTime lastTime = DateTime.Now;
         //game logic
         internal void Update()
         {
+            float deltaTime = GetDeltaTime(DateTime.Now);
             Input();
             foreach(Updatable up in Updatables)
             {                
-                up.Update();
-            }            
+                up.Update(deltaTime);
+            }
+            lastTime = DateTime.Now;
         }
         //post game logic stuff, display probably
         internal void PostUpdate()
@@ -105,6 +111,11 @@ namespace RandomConsoleDungeon
                         break;
                 }
             }
+        }
+
+        private float GetDeltaTime(DateTime startTime)
+        {
+            return (startTime.Ticks - lastTime.Ticks) / 10000000f;            
         }
     }
 }

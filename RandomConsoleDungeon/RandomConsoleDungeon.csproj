@@ -46,6 +46,8 @@
     <Compile Include="ConsoleHelpers.cs" />
     <Compile Include="DungeonGenerator.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Object\AttackableObject.cs" />
+    <Compile Include="Object\Enemy.cs" />
     <Compile Include="Object\GameObject.cs" />
     <Compile Include="Object\MovableObject.cs" />
     <Compile Include="Object\Player.cs" />

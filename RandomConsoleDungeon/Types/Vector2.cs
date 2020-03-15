@@ -15,6 +15,11 @@ namespace RandomConsoleDungeon
             this.y = y;
         }
 
+        public override string ToString()
+        {
+            return $"{{{x},{y}}}";
+        }
+
         private static int GetMagnitude(Vector2 A)
         {
             return (int)Math.Floor(Math.Sqrt(A.x * A.x + A.y * A.y));

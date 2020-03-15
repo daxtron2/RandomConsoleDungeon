@@ -10,9 +10,9 @@ namespace RandomConsoleDungeon
             Position = pos;
         }
 
-        public override void Update()
+        public override void Update(float deltaTime)
         {
-            base.Update();
+            base.Update(deltaTime);
             if (NeedsToCheckPaths)
             {
                 NeedsToCheckPaths = false;

@@ -22,7 +22,7 @@ namespace RandomConsoleDungeon
         public int ScreenHeight { get; private set; }
         public Vector2 FirstRoomPos { get; private set; }
 
-        public Tile[,] tiles;
+        private Tile[,] tiles;
 
         private DungeonGenerator dg;
         private List<Room> rooms;
@@ -72,6 +72,7 @@ namespace RandomConsoleDungeon
         internal bool CheckWalkable(Vector2 expectedPos)
         {
             var goToTest = AccessTile(expectedPos.x, expectedPos.y)?.GameObject;
+
             if (goToTest is Wall) return false;
             if (goToTest is null) return false;
             if (goToTest is Door)
@@ -79,6 +80,7 @@ namespace RandomConsoleDungeon
                 var door = goToTest as Door;
                 if (!door.IsWalkable) return false;
             }
+            if (goToTest is MovableObject) return false;
             return true;
         }
 
@@ -105,6 +107,9 @@ namespace RandomConsoleDungeon
 
             next.DisplayCharacter = original.DisplayCharacter;
             original.ResetCharacter();
+
+            next.SwapObject(ref original);
+
 
             original.Display();
             next.Display();

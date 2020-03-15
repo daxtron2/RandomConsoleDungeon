@@ -16,10 +16,10 @@ namespace RandomConsoleDungeon
         {
 
             //Console.WriteLine($"{Console.LargestWindowWidth}:{Console.LargestWindowHeight}");
-            Console.WindowHeight = Height+1;
+            Console.WindowHeight = Height+2;
             Console.WindowWidth = Width;
 
-            Console.BufferHeight = Height+1;
+            Console.BufferHeight = Height+2;
             Console.BufferWidth = Width;
 
         }
@@ -35,6 +35,16 @@ namespace RandomConsoleDungeon
         internal static Tuple<int,int> GetSize()
         {
             return new Tuple<int, int>(Width, Height);
+        }
+
+        internal static void WriteString(string toWrite)
+        {
+            Vector2 originalPos = new Vector2(Console.CursorLeft, Console.CursorTop);
+            Console.SetCursorPosition(0, Height);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, Height);
+            Console.Write(toWrite);
+            Console.SetCursorPosition(originalPos.x, originalPos.y);
         }
     }
 }

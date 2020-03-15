@@ -19,7 +19,7 @@
 
         }
 
-        public virtual void Update()
+        public virtual void Update(float deltaTime)
         {
 
         }
